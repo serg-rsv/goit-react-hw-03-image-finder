@@ -45,4 +45,10 @@ ul{
   padding: 0;
   list-style: none;
 }
+
+.message{
+  font-size: 24px;
+  color: tomato;
+  text-align: center;
+}
 `;
