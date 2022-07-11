@@ -22,7 +22,6 @@ export class Modal extends Component {
   }
 
   onEscKey = e => {
-    console.log(e.code);
     if (e.code === 'Escape') this.props.onClose();
   };
 
