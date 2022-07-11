@@ -5,6 +5,7 @@ export const SearchInput = styled.input`
   width: 100%;
   font: inherit;
   font-size: 20px;
+  line-height: 1em;
   border: none;
   outline: none;
   padding-left: 4px;

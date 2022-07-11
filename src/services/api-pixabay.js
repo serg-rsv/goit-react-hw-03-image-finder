@@ -8,9 +8,11 @@ const reqParams = {
   image_type: 'photo',
   orientation: 'horizontal',
   safesearch: 'true',
-  per_page: 4,
+  per_page: 12,
   page: 1,
 };
+
+let lastPage = false;
 /**
  * Fetch images from Pixabay.
  * @returns array of objects of images.
@@ -22,9 +24,16 @@ async function fetchImgs(query = '', page = 1) {
   return axios
     .get(BASE_URL, { params: reqParams })
     .then(({ data }) => {
+      lastPage =
+        Math.ceil(data.totalHits / reqParams.per_page) === reqParams.page;
       return data.hits;
     })
     .catch(error => console.log('error', error));
 }
 
-export { fetchImgs };
+function isLastPage() {
+  console.log(lastPage);
+  return lastPage;
+}
+
+export { fetchImgs, isLastPage };

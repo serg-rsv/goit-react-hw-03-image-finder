@@ -8,7 +8,7 @@ import { Loader } from './Loader/Loader';
 import { GlobalStyle } from 'styles/GlobalStyle';
 import { Container } from './Container.styled';
 
-import { fetchImgs } from 'services/api-pixabay';
+import { fetchImgs, isLastPage } from 'services/api-pixabay';
 
 // const STATUS = {
 //   IDLE: 'idle',
@@ -22,6 +22,7 @@ export class App extends Component {
     images: [],
     query: '',
     page: 1,
+    isLastPage: false,
     error: '',
     isLoading: false,
     // status: STATUS.IDLE,
@@ -57,7 +58,7 @@ export class App extends Component {
   };
 
   render() {
-    const { isLoading, images, error } = this.state;
+    const { isLastPage, isLoading, images, error } = this.state;
 
     return (
       <>
@@ -67,9 +68,13 @@ export class App extends Component {
           {error !== '' && <p className="message">{error}</p>}
           {error === '' && <ImageGallery images={images} />}
           {isLoading && <Loader />}
-          {!isLoading && error === '' && (
-            <Button handleClick={this.handleLoadMore} />
-          )}
+          {!isLoading &&
+            error === '' &&
+            (isLastPage ? (
+              <p className="noContent">No more content</p>
+            ) : (
+              <Button handleClick={this.handleLoadMore} />
+            ))}
         </Container>
       </>
     );
@@ -95,6 +100,7 @@ export class App extends Component {
       );
 
       this.setState(prevState => ({
+        isLastPage: isLastPage(),
         isLoading: false,
         images: [...prevState.images, ...newImgs],
       }));

@@ -51,4 +51,10 @@ ul{
   color: tomato;
   text-align: center;
 }
+
+.noContent{
+  font-size: 24px;
+  color: gray;
+  text-align: center;
+}
 `;

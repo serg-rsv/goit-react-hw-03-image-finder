@@ -5,11 +5,11 @@ import { ImageGalleryStyled } from './ImageGallery.styled';
 export const ImageGallery = ({ images }) => {
   return (
     <ImageGalleryStyled>
-      {images.map(({ id, webformatURL, tags }) => (
+      {images.map(({ id, webformatURL, largeImageURL, tags }) => (
         <ImageGalleryItem
           key={id}
           webformatURL={webformatURL}
-          // largeImageURL={largeImageURL}
+          largeImageURL={largeImageURL}
           tags={tags}
         />
       ))}
@@ -22,7 +22,7 @@ ImageGallery.propTypes = {
     PropTypes.shape({
       id: PropTypes.number.isRequired,
       webformatURL: PropTypes.string.isRequired,
-      // largeImageURL: PropTypes.string,
+      largeImageURL: PropTypes.string,
       tags: PropTypes.string,
     })
   ),
