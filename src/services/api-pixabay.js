@@ -32,7 +32,6 @@ async function fetchImgs(query = '', page = 1) {
 }
 
 function isLastPage() {
-  console.log(lastPage);
   return lastPage;
 }
 
