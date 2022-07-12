@@ -28,9 +28,9 @@ export class App extends Component {
     // status: STATUS.IDLE,
   };
 
-  async componentDidMount() {
-    this.fetchNewImgs();
-  }
+  // async componentDidMount() {
+  //   this.fetchNewImgs();
+  // }
 
   componentDidUpdate(_, prevState) {
     const { page, query } = this.state;
@@ -57,29 +57,6 @@ export class App extends Component {
     });
   };
 
-  render() {
-    const { isLastPage, isLoading, images, error } = this.state;
-
-    return (
-      <>
-        <GlobalStyle />
-        <Container>
-          <Searchbar handleQuery={this.handleQuery} />
-          {error !== '' && <p className="message">{error}</p>}
-          {error === '' && <ImageGallery images={images} />}
-          {isLoading && <Loader />}
-          {!isLoading &&
-            error === '' &&
-            (isLastPage ? (
-              <p className="noContent">No more content</p>
-            ) : (
-              <Button handleClick={this.handleLoadMore} />
-            ))}
-        </Container>
-      </>
-    );
-  }
-
   fetchNewImgs = async (query = '', page = 1) => {
     try {
       this.setState({ isLoading: true });
@@ -101,14 +78,41 @@ export class App extends Component {
 
       this.setState(prevState => ({
         isLastPage: isLastPage(),
-        isLoading: false,
         images: [...prevState.images, ...newImgs],
       }));
     } catch (error) {
       this.setState({
-        isLoading: false,
         error: error.message,
+      });
+    } finally {
+      this.setState({
+        isLoading: false,
       });
     }
   };
+
+  render() {
+    const { isLastPage, isLoading, images, error } = this.state;
+
+    return (
+      <>
+        <GlobalStyle />
+        <Container>
+          <Searchbar handleQuery={this.handleQuery} />
+          {error !== '' && <p className="message">{error}</p>}
+          {error === '' && <ImageGallery images={images} />}
+          {isLoading && <Loader />}
+          {!isLoading &&
+            error === '' &&
+            (isLastPage ? (
+              <p className="noContent">No more content</p>
+            ) : (
+              images.length !== 0 && (
+                <Button handleClick={this.handleLoadMore} />
+              )
+            ))}
+        </Container>
+      </>
+    );
+  }
 }

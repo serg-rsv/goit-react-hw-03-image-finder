@@ -2,8 +2,7 @@ import { Modal } from 'components/Modal/Modal';
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 
-import { Image } from './Image.styled';
-import { ImageGalleryItemStyled } from './ImageGalleryItem.styled';
+import { ImageGalleryItemStyled, Image } from './ImageGalleryItem.styled';
 
 export class ImageGalleryItem extends Component {
   static propTypes = {

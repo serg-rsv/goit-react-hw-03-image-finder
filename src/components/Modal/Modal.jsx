@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
 
-import { ModalStyled } from './Modal.styled';
-import { Overlay } from './Overlay.styled';
+import { ModalStyled, Overlay } from './Modal.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 

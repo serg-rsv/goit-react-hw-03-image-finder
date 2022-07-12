@@ -1,37 +1,54 @@
 import PropTypes from 'prop-types';
-import { SearchBarStyled } from './SearchBar.styled';
-import { SearchForm } from './SearchForm.styled';
-import { SearchButton } from './SearchButton.styled';
-import { ButtonLabel } from './ButtonLabel.styled';
-import { SearchInput } from './SearchInput.styled';
+import { Component } from 'react';
+import {
+  SearchBarStyled,
+  SearchForm,
+  SearchInput,
+  SearchButton,
+  ButtonLabel,
+} from './SearchBar.styled';
 
-export const Searchbar = ({ handleQuery }) => {
-  const handleSubmit = e => {
+export class Searchbar extends Component {
+  static propTypes = {
+    handleQuery: PropTypes.func.isRequired,
+  };
+
+  state = {
+    query: '',
+  };
+
+  handleChange = e => {
+    this.setState({ query: e.target.value });
+  };
+
+  handleSubmit = e => {
     e.preventDefault();
 
-    handleQuery(e.currentTarget.elements.query.value);
+    this.props.handleQuery(e.currentTarget.elements.query.value);
     // e.target.reset();
   };
 
-  return (
-    <SearchBarStyled>
-      <SearchForm onSubmit={handleSubmit}>
-        <SearchButton type="submit">
-          <ButtonLabel />
-        </SearchButton>
+  render() {
+    const { query } = this.state;
 
-        <SearchInput
-          name="query"
-          type="text"
-          autocomplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-        />
-      </SearchForm>
-    </SearchBarStyled>
-  );
-};
+    return (
+      <SearchBarStyled>
+        <SearchForm onSubmit={this.handleSubmit}>
+          <SearchButton type="submit">
+            <ButtonLabel />
+          </SearchButton>
 
-Searchbar.propTypes = {
-  handleQuery: PropTypes.func.isRequired,
-};
+          <SearchInput
+            name="query"
+            type="text"
+            autocomplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            value={query}
+            onChange={this.handleChange}
+          />
+        </SearchForm>
+      </SearchBarStyled>
+    );
+  }
+}
