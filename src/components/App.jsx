@@ -9,6 +9,7 @@ import { GlobalStyle } from 'styles/GlobalStyle';
 import { Container } from './Container.styled';
 
 import { fetchImgs, isLastPage } from 'services/api-pixabay';
+import { Modal } from './Modal/Modal';
 
 // const STATUS = {
 //   IDLE: 'idle',
@@ -25,6 +26,9 @@ export class App extends Component {
     isLastPage: false,
     error: '',
     isLoading: false,
+    showModal: false,
+    largeImageURL: '',
+    tags: '',
     // status: STATUS.IDLE,
   };
 
@@ -52,6 +56,7 @@ export class App extends Component {
           page: 1,
           images: [],
           error: '',
+          showModal: false,
         };
       }
     });
@@ -91,8 +96,17 @@ export class App extends Component {
     }
   };
 
+  openModal = (largeImageURL, tags) => {
+    this.setState({ largeImageURL, tags, showModal: true });
+  };
+
+  closeModal = () => {
+    this.setState({ showModal: false });
+  };
+
   render() {
-    const { isLastPage, isLoading, images, error } = this.state;
+    const { isLastPage, isLoading, images, error, largeImageURL, tags } =
+      this.state;
 
     return (
       <>
@@ -100,7 +114,9 @@ export class App extends Component {
         <Container>
           <Searchbar handleQuery={this.handleQuery} />
           {error !== '' && <p className="message">{error}</p>}
-          {error === '' && <ImageGallery images={images} />}
+          {error === '' && (
+            <ImageGallery images={images} openModal={this.openModal} />
+          )}
           {isLoading && <Loader />}
           {!isLoading &&
             error === '' &&
@@ -111,6 +127,13 @@ export class App extends Component {
                 <Button handleClick={this.handleLoadMore} />
               )
             ))}
+          {this.state.showModal && (
+            <Modal
+              onClose={this.closeModal}
+              largeImageURL={largeImageURL}
+              tags={tags}
+            />
+          )}
         </Container>
       </>
     );
