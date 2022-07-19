@@ -25,6 +25,7 @@ export class App extends Component {
     page: 1,
     isLastPage: false,
     error: '',
+    l: 0,
     isLoading: false,
     showModal: false,
     largeImageURL: '',
@@ -42,10 +43,14 @@ export class App extends Component {
     if (page !== prevState.page || query !== prevState.query) {
       this.fetchNewImgs(query, page);
     }
+    this.scrollToNewImg(this.state.l);
   }
 
   handleLoadMore = () => {
-    this.setState(prevState => ({ page: prevState.page + 1 }));
+    this.setState(prevState => ({
+      page: prevState.page + 1,
+      l: document.documentElement.scrollHeight - 150,
+    }));
   };
 
   handleQuery = query => {
@@ -102,6 +107,14 @@ export class App extends Component {
 
   closeModal = () => {
     this.setState({ showModal: false });
+  };
+
+  scrollToNewImg = l => {
+    window.scrollTo({
+      // top: document.documentElement.scrollHeight,
+      top: l,
+      behavior: 'smooth',
+    });
   };
 
   render() {
