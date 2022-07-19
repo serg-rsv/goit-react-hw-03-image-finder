@@ -62,6 +62,7 @@ export class App extends Component {
           images: [],
           error: '',
           showModal: false,
+          l: 0,
         };
       }
     });
